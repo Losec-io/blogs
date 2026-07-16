@@ -1,0 +1,16 @@
+[
+  {
+    "title": "The Final Days of Huntr OSS: One Night, Three Reports, and $1,625 in Bounties",
+    "slug": "the-final-days-of-huntr-oss",
+    "path": "the-final-days-of-huntr-oss",
+    "excerpt": "Before Huntr shut down its traditional open-source bug bounty program and shifted toward Huntr 2.0, I returned to the platform one last time, discovered three vulnerabilities in NLTK in less than twelve hours alongside GPT-5.5 Ultra, and ultimately received $1,625 in bounties.",
+    "tags": [
+      "huntr",
+      "disclosure",
+      "ai"
+    ],
+    "category": "Bug Bounty",
+    "date": "2026-07-16",
+    "author": "@khanhdlq"
+  }
+]
