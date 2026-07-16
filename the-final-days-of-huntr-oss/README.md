@@ -182,34 +182,15 @@ The file timestamps from the first draft in the group of three reports to the fi
 
 Those timestamps do not reveal the exact moment each bug was discovered; they only mark the period during which the reports took shape and were completed.
 
-## The Results Eleven Days Later
-
-Each report was marked Valid around 11 days after submission.
-
-Huntr showed that disclosure bounties had been awarded for all three; the total bounty I recorded was `$1,625`.
-
-![alt text](image-10.png)
-
-GPT-5.5 Ultra helped me speed up the most time-consuming work: reading a large codebase, rebuilding the lab, tracing documentation, and searching for previously reported bugs.
-
-AI did not turn a single prompt into three reports.
-
-It made every loop-from hypothesis to testing to evidence-move faster.
-
-The rest still came down to decisions I had to make myself: which direction was worth pursuing, which result was not yet enough to call a vulnerability, where the impact ended, and when a report was clear enough to click Submit.
-
 ### The Full Timeline
 
 Looking back, the entire story can be condensed into a few milestones:
 
-- `June 8, 2026:` Huntr announced its new direction with Huntr 2.0.
+- `June 08, 2026:` Huntr announced its new direction with Huntr 2.0.
 - `June 12, 2026:` the announced launch date for the AI Challenge Arena.
-- `With fewer than ten days left in the OSS submission window:` I returned to Huntr, checked Hacktivity, and chose NLTK as my target.
-- `That same day:` I found three bugs.
-- `From early evening until the following morning:` all three reports were verified, finalized, and submitted.
-- `Around 11 days later:` all three reports were marked Valid. The total bounty I recorded was `$1,625`.
-- `June 30, 2026:` Huntr stopped accepting new submissions to its traditional OSS program.
-- `July 31, 2026:` according to the FAQ, all submissions in the OSS program would be locked.
+- `June 22, 2026:` I returned to Huntr, checked Hacktivity, and chose NLTK as my target.
+- `June 23, 2026:` I found three bugs.
+- `July 04, 2026:` all three reports were marked Valid. 
 
 ## Thank You and Goodbye, Huntr
 
