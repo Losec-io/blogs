@@ -14,5 +14,21 @@
     "author": "@khanhdlq",
     "thumbnail": "the-final-days-of-huntr-oss/image-10.png",
     "time": "5 min read"
+  },
+  {
+    "title": "The Night I Decided to Kill Frida",
+    "slug": "the-night-i-decided-to-kill-frida",
+    "path": "decided-to-kill-frida",
+    "excerpt": "Frida is a dynamic instrumentation toolkit for developers, reverse-engineers, and security researchers. This post chronicles the night I decided to stop using Frida and the reasons behind it.",
+    "tags": [
+      "frida",
+      "hooking",
+      "cafe"
+    ],
+    "category": "Mobile Reverse Engineering",
+    "date": "2026-07-17",
+    "author": "@hibana",
+    "thumbnail": "decided-to-kill-frida/image-02.png",
+    "time": "3 min read"
   }
 ]
