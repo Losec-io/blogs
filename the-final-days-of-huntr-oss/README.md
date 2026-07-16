@@ -30,9 +30,9 @@ Put simply, Huntr was not just changing its interface. It was changing the entir
 
 The announcement sounded like the end of the old way of hunting bugs. But the door did not close on June 8.
 
-In the [Huntr 2.0 FAQ](https://blog.huntr.com/huntr-2-0-faq), Huntr said it would stop accepting new submissions to the traditional OSS program on **June 30, 2026**.
+In the [Huntr 2.0 FAQ](https://blog.huntr.com/huntr-2-0-faq), Huntr said it would stop accepting new submissions to the traditional OSS program on `June 30, 2026`.
 
-On **July 31, 2026**, all OSS submissions would be locked, and any reports that had not finished processing by then would not be processed further.
+On `July 31, 2026`, all OSS submissions would be locked, and any reports that had not finished processing by then would not be processed further.
 
 ### One More Return Before Saying Goodbye
 
@@ -46,11 +46,11 @@ So, before the OSS program came to an end, I decided to return one more time-to 
 
 By the end of that day, the answer was three bugs.
 
-Around 11 days later, all three were marked Valid. The total disclosure bounty I recorded came to **$1,625**.
+Around 11 days later, all three were marked Valid. The total disclosure bounty I recorded came to `$1,625`.
 
 ![alt text](image-3.png)
 
-> **Disclosure note:** At the time I finalized this draft, all three vulnerabilities were still Private and awaiting fixes.
+> `Disclosure note:` At the time I finalized this draft, all three vulnerabilities were still Private and awaiting fixes.
 >
 > This article discloses only the name of the target; the vulnerability classes, affected components, and every detail that could help reproduce the issues have been omitted.
 >
@@ -186,28 +186,9 @@ Those timestamps do not reveal the exact moment each bug was discovered; they on
 
 Each report was marked Valid around 11 days after submission.
 
-Huntr showed that disclosure bounties had been awarded for all three; the total bounty I recorded was **$1,625**.
+Huntr showed that disclosure bounties had been awarded for all three; the total bounty I recorded was `$1,625`.
 
 ![alt text](image-10.png)
-
-### The Full Timeline
-
-Looking back, the entire story can be condensed into a few milestones:
-
-- **June 8, 2026:** Huntr announced its new direction with Huntr 2.0.
-- **June 12, 2026:** the announced launch date for the AI Challenge Arena.
-- **With fewer than ten days left in the OSS submission window:** I returned to Huntr, checked Hacktivity, and chose NLTK as my target.
-- **That same day:** I found three bugs.
-- **From early evening until the following morning:** all three reports were verified, finalized, and submitted.
-- **Around 11 days later:** all three reports were marked Valid. The total bounty I recorded was **$1,625**.
-- **June 30, 2026:** Huntr stopped accepting new submissions to its traditional OSS program.
-- **July 31, 2026:** according to the FAQ, all submissions in the OSS program would be locked.
-
-## Thank You and Goodbye, Huntr
-
-Looking only at the timeline, this might seem like a lucky return.
-
-But the most important part of the story is not the final number.
 
 GPT-5.5 Ultra helped me speed up the most time-consuming work: reading a large codebase, rebuilding the lab, tracing documentation, and searching for previously reported bugs.
 
@@ -217,16 +198,31 @@ It made every loop-from hypothesis to testing to evidence-move faster.
 
 The rest still came down to decisions I had to make myself: which direction was worth pursuing, which result was not yet enough to call a vulnerability, where the impact ended, and when a report was clear enough to click Submit.
 
+### The Full Timeline
+
+Looking back, the entire story can be condensed into a few milestones:
+
+- `June 8, 2026:` Huntr announced its new direction with Huntr 2.0.
+- `June 12, 2026:` the announced launch date for the AI Challenge Arena.
+- `With fewer than ten days left in the OSS submission window:` I returned to Huntr, checked Hacktivity, and chose NLTK as my target.
+- `That same day:` I found three bugs.
+- `From early evening until the following morning:` all three reports were verified, finalized, and submitted.
+- `Around 11 days later:` all three reports were marked Valid. The total bounty I recorded was `$1,625`.
+- `June 30, 2026:` Huntr stopped accepting new submissions to its traditional OSS program.
+- `July 31, 2026:` according to the FAQ, all submissions in the OSS program would be locked.
+
+## Thank You and Goodbye, Huntr
+
 Huntr was one of the first bug bounty platforms I ever participated in.
 
 So, for me, the OSS program coming to an end was more than just a policy change. It also closed a chapter in the journey that began when I first started hunting bugs.
 
 Thank you, `Huntr 1.0`, for being part of that journey.
 
-Huntr 2.0 will continue with a different game.
+`Huntr 2.0` will continue with a different game.
 
 For me, this is the moment to say goodbye to the version of Huntr I once knew: the repositories, the private reports, and the waits for a Valid verdict.
 
-**Thank you, and goodbye, Huntr 1.0.**
+`Thank you, and goodbye, Huntr 1.0.`
 
 ![alt text](image-11.png)
