@@ -1,5 +1,21 @@
 [
   {
+    "title": "No Keys Required: Inside the Attack Surface of xLLM",
+    "slug": "no-keys-required-inside-the-attack-surface-of-xllm",
+    "path": "inside-the-attack-surface-of-xllm",
+    "excerpt": "xLLM is a cutting-edge language model with a unique attack surface. This post explores the potential vulnerabilities and security considerations when interacting with xLLM.",
+    "tags": [
+      "xllm",
+      "security",
+      "ai"
+    ],
+    "category": "AI Security",
+    "date": "2026-07-17",
+    "author": "@hypnguyen1209",
+    "thumbnail": "inside-the-attack-surface-of-xllm/image.png",
+    "time": "10 min read"
+  },
+  {
     "title": "The Final Days of Huntr OSS: One Night, Three Reports, and $1,625 in Bounties",
     "slug": "the-final-days-of-huntr-oss",
     "path": "the-final-days-of-huntr-oss",
@@ -30,21 +46,5 @@
     "author": "@hibana",
     "thumbnail": "decided-to-kill-frida/image-02.png",
     "time": "3 min read"
-  },
-  {
-    "title": "No Keys Required: Inside the Attack Surface of xLLM",
-    "slug": "inside-the-attack-surface-of-xllm",
-    "path": "no-keys-required-inside-the-attack-surface-of-xllm",
-    "excerpt": "xLLM is a cutting-edge language model with a unique attack surface. This post explores the potential vulnerabilities and security considerations when interacting with xLLM.",
-    "tags": [
-      "xllm",
-      "security",
-      "ai"
-    ],
-    "category": "AI Security",
-    "date": "2026-07-17",
-    "author": "@hypnguyen1209",
-    "thumbnail": "inside-the-attack-surface-of-xllm/image.png",
-    "time": "10 min read"
   }
 ]
