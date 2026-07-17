@@ -1,0 +1,36 @@
+name: Redeploy homepage
+
+# When a blog post changes here, trigger a rebuild of the losec.io homepage
+# (a separate repo) via its Vercel Deploy Hook, so new posts/slugs go live
+# without a manual redeploy.
+#
+# Setup (one-time):
+#   1. Vercel → homepage project → Settings → Git → Deploy Hooks → create a
+#      hook (branch: main) and copy its URL.
+#   2. This repo → Settings → Secrets and variables → Actions → New repository
+#      secret → name: VERCEL_DEPLOY_HOOK, value: <the hook URL>.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'publications.json'
+      - '**/README.md'
+  workflow_dispatch: {}
+
+jobs:
+  redeploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Vercel deploy hook
+        env:
+          HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "::warning::VERCEL_DEPLOY_HOOK secret is not set — skipping."
+            echo "Add it in Settings → Secrets and variables → Actions."
+            exit 0
+          fi
+          echo "Triggering homepage redeploy…"
+          curl -fsSL -X POST "$HOOK" -o /dev/null -w "HTTP %{http_code}\n"
+          echo "Done."
