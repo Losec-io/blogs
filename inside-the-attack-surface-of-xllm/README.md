@@ -2,7 +2,7 @@
 
 *A deep dive into the architecture and vulnerability classes hiding inside production LLM inference engines, through the lens of xLLM.*
 
-**Security Research -- July 2026**
+**Security Research - July 2026**
 
 LLM inference engines are a strange breed of software. They are built by ML engineers who think in tensors and throughput, deployed on GPU clusters worth millions, and then exposed to the internet through an HTTP API that trusts every byte it receives. The result is an attack surface that feels less like a web application and more like an industrial control system that someone accidentally port-forwarded.
 
@@ -39,11 +39,11 @@ Every one of these ports speaks brpc's HTTP and protobuf-over-TCP protocols. We 
 
 The sole gating mechanism we found was `enable_online_profile` (a feature flag for the CPU profiler, default off, not an auth check) and a `RateLimiter` that caps concurrent requests at 200 without distinguishing users.
 
-This means the management endpoints -- `fork_master` (load a model from any filesystem path), `sleep`/`wakeup` (unload/reload models), `pause` (abort all in-flight requests), `link_p2p` (establish connections to arbitrary addresses) -- are accessible to anyone who can reach the port.
+This means the management endpoints - `fork_master` (load a model from any filesystem path), `sleep`/`wakeup` (unload/reload models), `pause` (abort all in-flight requests), `link_p2p` (establish connections to arbitrary addresses) are accessible to anyone who can reach the port.
 
 ### Property 2: The multimodal surface is a proxy
 
-When serving vision-language models, xLLM's API accepts URLs in `image_url`, `video_url`, and `audio_url` fields. The server fetches these URLs server-side to download the media content before passing it to the model. This turns the inference engine into an HTTP proxy that makes outbound requests on behalf of the client -- a classic SSRF surface.
+When serving vision-language models, xLLM's API accepts URLs in `image_url`, `video_url`, and `audio_url` fields. The server fetches these URLs server-side to download the media content before passing it to the model. This turns the inference engine into an HTTP proxy that makes outbound requests on behalf of the client a classic SSRF surface.
 
 What makes this surface particularly interesting in LLM engines is the **multimodal decode pipeline**. The fetched bytes go through format-specific decoders (OpenCV for images, FFmpeg for video/audio). The decoder output becomes a tensor that feeds the model. The model's text output is returned to the client. This creates an indirect data channel: if the attacker can control what the model sees, they can influence what the model says.
 
@@ -51,7 +51,7 @@ What makes this surface particularly interesting in LLM engines is the **multimo
 
 Apache brpc is a high-performance RPC framework used widely in Chinese tech infrastructure (Baidu, JD, ByteDance). One of its features is a built-in debug console: `/flags` (view/modify all gflags), `/vars` (internal metrics), `/connections` (active connections), `/pprof/*` (CPU/heap profiling), `/status`. These are enabled by default on every server port unless the developer explicitly sets `has_builtin_services = false`.
 
-This is the brpc equivalent of leaving Django's `DEBUG=True` in production -- except it exposes runtime flags that can be *modified*, not just read.
+This is the brpc equivalent of leaving Django's `DEBUG=True` in production except it exposes runtime flags that can be *modified*, not just read.
 
 ## Mapping the Attack Surface
 
@@ -89,11 +89,11 @@ MMErrCode ImageHandler::load(const MMContent& content,
   const auto& url = content.image_url.url;
 
   if (url.compare(0, dataurl_prefix_.size(), dataurl_prefix_) == 0) {
-    // "data:image/..." -- base64 encoded, handled locally
+    // "data:image/..." - base64 encoded, handled locally
     return this->load_from_dataurl(url, input.raw_data, payload);
 
   } else if (url.compare(0, httpurl_prefix_.size(), httpurl_prefix_) == 0) {
-    // "http://..." or "https://..." -- server fetches the URL
+    // "http://..." or "https://..." - server fetches the URL
     return this->load_from_http(url, input.raw_data,
                                 content.image_url.headers);  // <---
 
@@ -107,7 +107,7 @@ MMErrCode ImageHandler::load(const MMContent& content,
 }
 ```
 
-The `httpurl_prefix_` is the 4-character string `"http"`. Any URL starting with `http` -- both `http://` and `https://` -- enters the server-side fetch path. The URL flows through `load_from_http()` into `BRpcDownloader::download()`:
+The `httpurl_prefix_` is the 4-character string `"http"`. Any URL starting with `http` both `http://` and `https://` enters the server-side fetch path. The URL flows through `load_from_http()` into `BRpcDownloader::download()`:
 
 ```cpp
 // xllm/core/util/http_downloader.cpp:109-144
@@ -172,7 +172,7 @@ options.idle_timeout_sec =
     ::xllm::ServiceConfig::get_instance().rpc_idle_timeout_s();
 options.num_threads = ::xllm::ServiceConfig::get_instance().num_threads();
 options.health_reporter = &HealthReporter::instance();
-// has_builtin_services is never set -- brpc defaults it to true
+// has_builtin_services is never set - brpc defaults it to true
 if (server_->Start(port, &options) != 0) { ... }
 ```
 
@@ -201,7 +201,7 @@ After initialization, the singletons are immutable. Modifying `FLAGS_model`, `FL
 
 ## The Other Branch: Arbitrary File Read
 
-Back to the three-way URL dispatch in `ImageHandler::load()`. The else-branch at line 130 is the interesting one: everything that does not start with `"data:image"` or `"http"` falls through to `load_from_local()`. Since `"file"[0] != "http"[0]`, any `file://` URL -- and any bare absolute path -- reaches this code:
+Back to the three-way URL dispatch in `ImageHandler::load()`. The else-branch at line 130 is the interesting one: everything that does not start with `"data:image"` or `"http"` falls through to `load_from_local()`. Since `"file"[0] != "http"[0]`, any `file://` URL and any bare absolute path reaches this code:
 
 ```cpp
 // xllm/core/framework/multimodal/mm_handler.cpp:82-98
@@ -232,7 +232,7 @@ We spent a full investigation round trying to upgrade this to full content exfil
 What *does* work:
 
 - **File existence oracle.** Two distinct error messages: `DECODE_ERR` ("Failed to decode multimodal input") when the file exists but is not a valid image, `INVALID_URL_ERR` ("url must be data URL / http(s) URL / local file URL") when the file does not exist. This allows enumerating the filesystem, including `/proc/self/environ`, `/proc/self/maps`, and open file descriptors at `/proc/self/fd/<N>`.
-- **Image exfiltration via VLM.** If the file at the target path happens to be a valid PNG, JPEG, or BMP, it is decoded, passed to the vision-language model, and the model's description is returned to the client. Screenshots, charts, photos -- anything the server process can read and OpenCV can decode.
+- **Image exfiltration via VLM.** If the file at the target path happens to be a valid PNG, JPEG, or BMP, it is decoded, passed to the vision-language model, and the model's description is returned to the client. Screenshots, charts, photos anything the server process can read and OpenCV can decode.
 - **OOM crash.** Pointing the URL at `/dev/zero` causes the `istreambuf_iterator` to read forever, allocating memory until the kernel OOM-kills the process.
 
 ```mermaid
@@ -272,7 +272,7 @@ size_t get_json_content_length(const brpc::Controller* ctrl) {
 }
 ```
 
-`std::stoul` throws `std::invalid_argument` for non-numeric input and `std::out_of_range` for overflow. There is no `try-catch` here. There is no `try-catch` in any caller. There is no `try-catch` in brpc's service dispatch -- service methods run in bthreads, and an uncaught exception in a bthread invokes `std::terminate()`.
+`std::stoul` throws `std::invalid_argument` for non-numeric input and `std::out_of_range` for overflow. There is no `try-catch` here. There is no `try-catch` in any caller. There is no `try-catch` in brpc's service dispatch - service methods run in bthreads, and an uncaught exception in a bthread invokes `std::terminate()`.
 
 The same pattern repeats at `call.cpp:50-51` in `Call::init_request_payload()`, which runs for every endpoint that processes a request body.
 
@@ -305,18 +305,18 @@ A security audit that only reports what broke is incomplete. The surfaces we inv
 
 ## The Systemic Pattern
 
-None of the bugs we found required a novel exploitation technique. SSRF, path traversal, information disclosure, uncaught exception -- these are textbook classes that web application security has understood for two decades. What is interesting is not the individual bugs but the **architectural assumptions** that produced all four simultaneously.
+None of the bugs we found required a novel exploitation technique. SSRF, path traversal, information disclosure, uncaught exception these are textbook classes that web application security has understood for two decades. What is interesting is not the individual bugs but the **architectural assumptions** that produced all four simultaneously.
 
-LLM inference engines occupy a strange middle ground in the software stack. They are built like internal infrastructure -- no auth, management APIs wide open, debug surfaces enabled, inter-node communication in plaintext -- but deployed at the trust boundary of a public-facing API. The implicit threat model is "the network is trusted." When that assumption fails, every surface fails at once.
+LLM inference engines occupy a strange middle ground in the software stack. They are built like internal infrastructure no auth, management APIs wide open, debug surfaces enabled, inter-node communication in plaintext but deployed at the trust boundary of a public-facing API. The implicit threat model is "the network is trusted." When that assumption fails, every surface fails at once.
 
 This is not unique to xLLM. The same pattern produced:
 
-- **CVE-2025-6242** -- vLLM SSRF via `MediaConnector.load_from_url()`, the exact same bug class.
-- **CVE-2024-50050** -- Meta Llama Stack pickle deserialization over an unauthenticated ZMQ socket.
-- **CVE-2025-30165** -- vLLM pickle deserialization over ZMQ, same pattern.
-- **CVE-2025-23254** -- NVIDIA TensorRT-LLM, same pattern.
+- **CVE-2025-6242** - vLLM SSRF via `MediaConnector.load_from_url()`, the exact same bug class.
+- **CVE-2024-50050** - Meta Llama Stack pickle deserialization over an unauthenticated ZMQ socket.
+- **CVE-2025-30165** - vLLM pickle deserialization over ZMQ, same pattern.
+- **CVE-2025-23254** - NVIDIA TensorRT-LLM, same pattern.
 
-The LLM serving ecosystem is replaying the early web framework era: ship for throughput, authenticate later. The difference is that the blast radius is larger -- an inference engine compromise exposes model weights, user prompts, internal network topology, and cloud credentials -- and the "later" keeps not arriving.
+The LLM serving ecosystem is replaying the early web framework era: ship for throughput, authenticate later. The difference is that the blast radius is larger an inference engine compromise exposes model weights, user prompts, internal network topology, and cloud credentials and the "later" keeps not arriving.
 
 > The assumption that "the network is trusted" is load-bearing in every design decision. When that assumption fails, everything fails at once. The fix is not to patch individual bugs. The fix is to stop building inference engines like they will only ever run inside a VPN.
 
